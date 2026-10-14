@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>华领医药 GK充电宝+</title>
+  <style>
+    :root {
+      --blue-900: #0a357f;
+      --blue-800: #124795;
+      --blue-700: #1f65db;
+      --blue-500: #4e8df6;
+      --ink: #17294e;
+      --muted: #7487aa;
+      --line: #e4ecf8;
+      --soft: #f5f8fd;
+      --white: #fff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      min-height: 100vh;
+      font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 72% 18%, #2868c5 0, #164a9d 33%, #092e71 76%);
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: auto -12vw -34vh 38vw;
+      height: 48vh;
+      background: radial-gradient(ellipse, rgba(250, 188, 52, .38), transparent 65%);
+      pointer-events: none;
+    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+    .app-shell {
+      width: min(1240px, calc(100% - 40px));
+      height: min(710px, calc(100vh - 20px));
+      min-height: 610px;
+      margin: 10px auto;
+      display: grid;
+      grid-template-columns: 252px minmax(0, 1fr);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(201, 225, 255, .25);
+      border-radius: 20px;
+      background: rgba(14, 61, 132, .46);
+      box-shadow: 0 26px 70px rgba(3, 24, 70, .32), inset 0 1px rgba(255,255,255,.16);
+      backdrop-filter: blur(12px);
+    }
+    .sidebar {
+      padding: 28px 18px 18px;
+      background: rgba(255,255,255,.98);
+      border-right: 1px solid #e7eef8;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; padding: 0 8px 25px; white-space: nowrap; }
+    .brand-mark { width: 30px; height: 30px; display: grid; place-items: center; color: #18b8b7; font-weight: 800; font-size: 9px; border: 2px solid #65d6d1; border-radius: 10px 10px 10px 4px; position: relative; }
+    .brand-mark::after { content: ""; position: absolute; right: -3px; bottom: -4px; width: 7px; height: 7px; border-left: 2px solid #65d6d1; transform: skew(-25deg); }
+    .brand-name { font-size: 15px; font-weight: 700; letter-spacing: .3px; }
+    .new-chat { height: 39px; border: 1px solid #dfe7f2; border-radius: 22px; color: #2b6ff0; background: #fff; box-shadow: 0 2px 7px rgba(43, 91, 156, .07); display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .new-chat .plus { width: 14px; height: 14px; border: 1.5px solid #2f76f4; border-radius: 50%; position: relative; }
+    .new-chat .plus::after, .new-chat .plus::before { content: ""; position: absolute; background: #2f76f4; left: 3px; right: 3px; height: 1px; top: 5px; }
+    .new-chat .plus::after { transform: rotate(90deg); }
+    .clean { align-self: flex-end; margin: -31px 4px 20px 0; width: 34px; height: 34px; border: 1px solid #e3eaf5; border-radius: 50%; background: white; color: #71809b; }
+    .chat-list { display: grid; gap: 4px; }
+    .chat-item { border: 0; background: transparent; text-align: left; display: flex; align-items: center; gap: 11px; padding: 13px 13px; border-radius: 9px; color: #536277; font-size: 14px; min-width: 0; }
+    .chat-item.active { color: #3677ee; background: #edf3ff; }
+    .chat-item .bubble { font-size: 14px; flex: 0 0 auto; }
+    .chat-item .label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .chat-item time { margin-left: auto; font-size: 12px; color: #8c99af; flex-shrink: 0; }
+    .loaded { margin-top: auto; text-align: center; color: #adb7c8; font-size: 13px; padding: 16px 0 5px; }
+    .main { min-width: 0; min-height: 0; height: 100%; background: rgba(255,255,255,.985); display: flex; flex-direction: column; }
+    .topbar { height: 68px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #eef2f8; font-size: 15px; }
+    .more { border: 1px solid #e2e8f2; border-radius: 8px; background: #fff; color: #52627b; width: 34px; height: 32px; letter-spacing: 2px; box-shadow: 0 3px 7px rgba(58,86,130,.07); }
+    .main-content { flex: 1; min-height: 0; padding: 10px 18px 14px; overflow: auto; }
+    .hero { min-height: 226px; border-radius: 12px; padding: 25px 30px; position: relative; overflow: hidden; background: #eaf3ff; }
+    .hero-copy { position: relative; z-index: 1; max-width: 100%; }
+    .eyebrow { font-size: 12px; color: #9aacc8; margin-bottom: 10px; }
+    h1 { margin: 0; font-size: clamp(24px, 2.3vw, 30px); letter-spacing: .2px; line-height: 1.25; color: #132650; }
+    h1 span { color: #1d72ee; }
+    .tagline { margin: 9px 0 14px; font-size: 17px; font-weight: 700; color: #40577f; }
+    .short-rule { width: 34px; height: 3px; background: #2475ec; border-radius: 4px; margin-bottom: 12px; }
+    .intro { margin: 0; color: #526887; line-height: 1.65; font-size: 13px; }
+    .notice { display: flex; align-items: center; gap: 10px; margin-top: 13px; padding: 9px 13px; border-radius: 9px; background: rgba(255,255,255,.56); color: #667b9e; font-size: 12px; }
+    .notice .info { width: 17px; height: 17px; display: grid; place-items: center; border: 2px solid #4186f5; color: #4186f5; border-radius: 50%; font-weight: 700; flex-shrink: 0; }
+    .section-title { display: flex; align-items: center; justify-content: space-between; margin: 16px 4px 10px; }
+    .section-title h2 { margin: 0; font-size: 18px; } .section-title h2::after { content: ""; display: block; width: 25px; height: 3px; background: #3180f4; border-radius: 3px; margin-top: 7px; }
+    .quick-link { color: #94a4bd; font-size: 12px; background: transparent; border: 0; }
+    .questions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .question-card { min-height: 61px; border: 1px solid #e5ecf7; background: #fff; border-radius: 11px; padding: 9px 15px; display: flex; align-items: center; gap: 15px; text-align: left; color: #294064; box-shadow: 0 4px 14px rgba(34,90,160,.03); transition: .2s ease; }
+    .question-card:hover { border-color: #a8c8fb; transform: translateY(-1px); box-shadow: 0 7px 16px rgba(34,90,160,.1); }
+    .question-no { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; color: #1d6dea; background: #edf4ff; font-size: 16px; font-weight: 700; flex: 0 0 auto; }
+    .question-text { font-size: 13px; line-height: 1.45; flex: 1; }
+    .conversation-thread { display: grid; gap: 18px; }
+    .conversation-turn { min-width: 0; }
+    .answer-view { display: block; padding: 4px 2px 10px; }
+    .sent-question { width: fit-content; max-width: 82%; margin: 0 0 16px auto; padding: 10px 15px; border-radius: 14px 14px 3px 14px; background: #eaf2ff; color: #29446d; font-size: 15px; }
+    .answer-toolbar { display: flex; align-items: center; gap: 0; margin: 0 0 12px; color: #7e8ca4; }
+    .answer-logo { width: 48px; height: 48px; margin-right: 14px; display: grid; place-items: center; border: 1px solid #e5ebf5; border-radius: 12px; background: white; color: #16aaa9; font-size: 11px; font-weight: 800; box-shadow: 0 3px 10px rgba(37,67,112,.1); }
+    .answer-action { width: 37px; height: 37px; border: 1px solid #dce4f0; background: #fff; color: #8392aa; font-size: 18px; }
+    .answer-action:first-of-type { border-radius: 9px 0 0 9px; }
+    .answer-action:last-of-type { border-radius: 0 9px 9px 0; }
+    .answer-time { margin-left: 15px; font-size: 14px; }
+    .answer-body { padding: 17px 24px 22px; border-radius: 0 14px 14px 0; background: #f6f7f9; color: #1d2430; font-size: 17px; line-height: 1.7; }
+    .answer-body p { margin: 0 0 18px; }
+    .answer-body h2 { margin: 26px 0 12px; font-size: 24px; line-height: 1.35; color: #161d29; }
+    .answer-body ul { margin: 7px 0 20px; padding-left: 24px; }
+    .answer-body li { padding-left: 0; margin: 2px 0; }
+    .citation { display: inline-block; color: #2870ff; font-size: 12px; text-decoration: none; vertical-align: 2px; }
+    .answer-disclaimer { margin: 22px 0 15px !important; padding-left: 24px; border-left: 5px solid #d7dce4; color: #858585; }
+    .sources { border-top: 1px solid #e5edf8; margin-top: 26px; padding-top: 18px; }
+    .sources-card { border: 1px solid #e0eaf7; border-radius: 15px; padding: 16px 24px 8px; background: linear-gradient(145deg, #f7faff, #f2f7fd); box-shadow: inset 0 1px rgba(255,255,255,.9); }
+    .sources-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .sources-heading h2 { margin: 0; font-size: 19px; }
+    .expand-all { border: 0; background: transparent; color: #2870ed; font-size: 14px; white-space: nowrap; }
+    .source-list { list-style: none; margin: 8px 0 0; padding: 0; }
+    .source-list li { display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 52px; padding: 7px 4px; border-bottom: 1px solid #e2eaf4; }
+    .source-list li:last-child { border-bottom: 0; }
+    .source-index { color: #8595ae; font-size: 15px; }
+    .sources a { color: #2870e8; font-size: 15px; text-decoration: underline; text-underline-offset: 2px; }
+    .source-meta { display: flex; gap: 11px; align-items: center; color: #8998b0; font-size: 14px; white-space: nowrap; }
+    .source-meta i { font-style: normal; color: #b7c3d3; }
+    .source-url { display: none; grid-column: 2 / -1; min-width: 0; overflow-wrap: anywhere; color: #91a0b5; font-size: 11px; }
+    .sources.expanded .source-url { display: block; }
+    .sources-actions { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 17px; border-top: 1px solid #e5edf8; }
+    .sources-actions button { min-height: 56px; position: relative; border: 0; background: transparent; color: #2870ed; font-size: 15px; }
+    .sources-actions button + button::before { content: ""; position: absolute; left: 0; top: 16px; bottom: 16px; width: 1px; background: #dce6f2; }
+    .generated-file-card { width: min(100%, 900px); margin: 18px 0 10px; padding: 15px; display: grid; grid-template-columns: minmax(190px, 250px) minmax(0, 1fr) auto; align-items: center; gap: 20px; border: 1px solid #e1e9f2; border-radius: 18px; background: #fff; box-shadow: 0 9px 28px rgba(28,57,94,.08); }
+    .mindmap-preview { position: relative; min-width: 0; height: 142px; overflow: hidden; border: 1px solid #e6edf6; border-radius: 12px; background: #f4f8fd; }
+    .mindmap-preview img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .mindmap-preview::after { content: "思维导图预览"; position: absolute; right: 8px; bottom: 8px; padding: 4px 8px; border: 1px solid rgba(255,255,255,.8); border-radius: 20px; background: rgba(255,255,255,.9); color: #63758e; font-size: 10px; }
+    .pdf-icon { display: none; }
+    .generated-file-info { min-width: 0; flex: 1; }
+    .generated-file-name { color: #1f3555; font-size: 16px; font-weight: 700; overflow-wrap: anywhere; }
+    .generated-file-status { display: flex; align-items: center; margin-top: 6px; color: #7487a2; font-size: 13px; }
+    .generated-file-status strong { width: 18px; height: 18px; display: inline-grid; place-items: center; border-radius: 50%; color: #fff; background: #43bd78; font-size: 11px; margin-right: 7px; }
+    .regenerate-pdf { display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; padding: 0; border: 0; background: none; color: #2475e8; font-size: 12px; }
+    .regenerate-pdf::before { content: "↻"; font-size: 15px; }
+    .download-pdf { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 126px; height: 44px; padding: 0 17px; border-radius: 12px; background: #1677f8; color: #fff; font-size: 14px; font-weight: 600; text-decoration: none; box-shadow: 0 5px 12px rgba(0,111,242,.2); transition: transform .18s, box-shadow .18s; }
+    .download-pdf:hover { transform: translateY(-1px); box-shadow: 0 10px 19px rgba(0,111,242,.3); }
+    .composer { height: 56px; flex: 0 0 56px; margin: 0 18px 14px; border: 1px solid #e1e9f5; border-radius: 11px; display: flex; align-items: center; gap: 12px; padding: 0 11px 0 14px; box-shadow: 0 5px 14px rgba(43,89,150,.08); background: #fff; }
+    .composer .attach, .composer .mic { border: 0; background: none; color: #7288ab; font-size: 24px; width: 26px; padding: 0; } .composer .mic { font-size: 22px; }
+    .composer input { border: 0; outline: 0; flex: 1; min-width: 0; font-size: 13px; color: #526887; } .composer input::placeholder { color: #93a5c1; }
+    .send { width: 35px; height: 35px; border: 0; border-radius: 9px; background: #a9c9ff; color: white; font-size: 22px; line-height: 1; transition: .2s; } .send:hover { background: #4b8af2; }
+    .recommendations { display: none; min-width: 0; padding: 17px 19px; color: #f5f8ff; background: linear-gradient(180deg, rgba(17,65,140,.6), rgba(10,51,113,.75)); }
+    .app-shell.recommendations-open { grid-template-columns: 252px minmax(0, 1fr) 264px; }
+    .recommendations-open .recommendations { display: block; }
+    .recommend-heading { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 13px; }
+    .recommend-title { color: rgba(219,231,255,.72); font-size: 13px; letter-spacing: .5px; margin: 0 0 0 30px; position: relative; white-space: nowrap; }
+    .recommend-title::before { content: ""; position: absolute; width: 20px; height: 1px; background: #9fb7e0; left: -29px; top: 8px; }
+    .shuffle-recommendations { display: inline-flex; align-items: center; gap: 5px; border: 0; padding: 4px 0 4px 4px; color: #c2d6f5; background: transparent; font-size: 12px; white-space: nowrap; }
+    .shuffle-recommendations svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    .shuffle-recommendations:hover { color: #fff; }
+    .recommend-list { display: grid; gap: 9px; }
+    .recommend-item { border: 1px solid rgba(170,204,255,.22); background: rgba(36,99,183,.3); color: #eef5ff; border-radius: 14px; padding: 11px 12px; min-height: 47px; display: flex; align-items: center; gap: 10px; text-align: left; line-height: 1.4; font-size: 13px; box-shadow: inset 0 1px rgba(255,255,255,.05); transition: .2s; }
+    .recommend-item:hover, .recommend-item.active { background: rgba(79,133,211,.48); border-color: rgba(255,230,149,.6); }
+    .recommend-item .index { width: 23px; height: 23px; border-radius: 50%; display: grid; place-items: center; flex: 0 0 auto; background: rgba(255,213,84,.16); color: #ffdb67; font-size: 11px; font-weight: 700; }
+    @media (max-width: 980px) { .app-shell { grid-template-columns: 220px minmax(0, 1fr); } .app-shell.recommendations-open { grid-template-columns: 220px minmax(0, 1fr) 240px; } }
+    @media (max-width: 760px) { .generated-file-card { grid-template-columns: 84px minmax(0, 1fr); gap: 12px; padding: 12px; } .mindmap-preview { height: 90px; } .mindmap-preview::after { display: none; } .generated-file-info { grid-column: 2; grid-row: 1; } .download-pdf { grid-column: 1 / -1; width: 100%; } }
+    @media (max-width: 680px) { body { background: #f4f8ff; } .app-shell { width: 100%; height: 100vh; min-height: 0; margin: 0; border-radius: 0; display: block; } .sidebar { display: none; } .main { height: 100vh; } .topbar { height: 58px; flex: 0 0 58px; } .main-content { padding: 10px; } .hero { padding: 22px 20px; } .hero-copy { max-width: 100%; } .questions { grid-template-columns: 1fr; } .composer { margin: 0 10px 10px; } .answer-body { padding: 16px 14px; font-size: 15px; } .answer-body h2 { font-size: 20px; } .sources-card { padding: 14px 13px 6px; } .source-list li { grid-template-columns: 22px minmax(0, 1fr); gap: 5px 8px; } .source-meta { grid-column: 2; white-space: normal; font-size: 12px; } .source-url { grid-column: 2; } .sources-actions button { font-size: 12px; } .generated-file-card { width: 100%; margin: 12px 0; } .recommendations-open .recommendations { position: absolute; z-index: 5; top: 0; right: 0; bottom: 0; width: min(290px, 86vw); box-shadow: -12px 0 30px rgba(4, 31, 76, .22); } }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">GK</div><div class="brand-name">华领医药GK充电宝+</div></div>
+      <button class="new-chat" type="button"><span class="plus"></span>新对话</button>
+      <button class="clean" type="button" aria-label="清理对话">♧</button>
+      <nav class="chat-list" aria-label="历史对话">
+        <button class="chat-item active" type="button"><span class="bubble">●</span><span class="label">新对话</span><time>刚刚</time></button>
+        <button class="chat-item" type="button"><span class="bubble">◉</span><span class="label">多格列艾汀的血糖稳态作用机制</span><time>11:01</time></button>
+        <button class="chat-item" type="button"><span class="bubble">◉</span><span class="label">多格列艾汀的血糖管理</span><time>10:59</time></button>
+        <button class="chat-item" type="button"><span class="bubble">◉</span><span class="label">什么是多格列艾汀？</span><time>10:27</time></button>
+      </nav>
+      <div class="loaded">已加载全部</div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar"><span>新对话</span><button class="more" type="button" aria-label="更多">•••</button></header>
+      <div class="main-content">
+        <div class="welcome-view" id="welcome-view">
+        <section class="hero">
+          <div class="hero-copy">
+            <div class="eyebrow">GK Biopharma</div>
+            <h1>你好，我是华领医药 <span>GK充电宝+</span></h1>
+            <div class="tagline">专注多格列艾汀的医学知识助手</div>
+            <div class="short-rule"></div>
+            <p class="intro">基于公司内部资料，帮助你快速查询和理解多格列艾汀<br>的相关医学信息，包括药物机制、临床证据、用法用量、安全性等内容。</p>
+            <div class="notice"><span class="info">i</span><span>本回答基于公司内部资料及公开医学文献，仅供专业人士参考，不替代医生的专业判断。</span></div>
+          </div>
+        </section>
+
+        <div class="section-title"><h2>你可以这样问</h2><button class="quick-link" id="recommend-toggle" type="button" aria-controls="recommendations-panel" aria-expanded="false">快速获取你关心的问题　›</button></div>
+        <section class="questions" aria-label="常见问题">
+          <button class="question-card" type="button" data-question="什么是多格列艾汀？"><span class="question-no">01</span><span class="question-text">什么是多格列艾汀？</span></button>
+          <button class="question-card" type="button" data-question="多格列艾汀的血糖稳态作用机制？"><span class="question-no">04</span><span class="question-text">多格列艾汀的血糖稳态作用<br>机制？</span></button>
+          <button class="question-card" type="button" data-question="多格列艾汀的作用机制是什么？"><span class="question-no">02</span><span class="question-text">多格列艾汀的作用机制是什么？</span></button>
+          <button class="question-card" type="button" data-question="多格列艾汀的临床研究主要疗效结果是什么？"><span class="question-no">05</span><span class="question-text">多格列艾汀的临床研究<br>主要疗效结果是什么？</span></button>
+          <button class="question-card" type="button" data-question="多格列艾汀的推荐用法用量是多少？"><span class="question-no">03</span><span class="question-text">多格列艾汀的推荐用法用量<br>是多少？</span></button>
+          <button class="question-card" type="button" data-question="多格列艾汀常见的不良反应有哪些？"><span class="question-no">06</span><span class="question-text">多格列艾汀常见的不良反应<br>有哪些？</span></button>
+        </section>
+        </div>
+        <section class="conversation-thread" id="conversation-thread" aria-live="polite" aria-label="聊天记录"></section>
+        <template id="answer-template">
+        <article class="answer-view" aria-label="多格列艾汀介绍">
+          <div class="answer-toolbar">
+            <div class="answer-logo">GK<br><small>Biopharma</small></div>
+            <button class="answer-action" type="button" aria-label="朗读">))</button><button class="answer-action" type="button" aria-label="赞同">♧</button><button class="answer-action" type="button" aria-label="不赞同">♧</button>
+            <time class="answer-time">15:31</time>
+          </div>
+          <div class="answer-body">
+            <p>多格列艾汀（Dorzagliatin），商品名为<strong>华堂宁®</strong>，是由华领医药自主研发并全球首个获批上市的<strong>双重葡萄糖激酶（GK）激活剂</strong>。作为一种具有全新作用机制的口服降糖药物，它通过靶向人体自身的“葡萄糖传感器”——葡萄糖激酶（GK），旨在<strong>重塑2型糖尿病（T2DM）患者的血糖稳态生理调节机制</strong> <a class="citation" href="#source-1">▧</a>。</p>
+            <h2>1. 核心定义与靶点机制</h2>
+            <p>在生理状态下，GK主要分布于胰岛β细胞、α细胞、肠道内分泌细胞及肝脏中，充当“葡萄糖传感器”的角色，负责感知血糖浓度变化并调控胰岛素、胰高血糖素及GLP-1的分泌，同时调节肝糖原的合成与分解 <a class="citation" href="#source-2">▧</a>。2型糖尿病患者体内GK的表达量和活性显著下降（胰岛β细胞和肝脏细胞中GK表达量下降约40%，肝脏细胞中GK活性下降约50%），导致“传感器”失灵，引发胰岛素分泌缺陷（尤其是早相分泌缺失）和肝糖输出过多 <a class="citation" href="#source-2">▧</a>。</p>
+            <p>多格列艾汀作为<strong>异位变构GK全激活剂</strong>，通过“葡萄糖浓度依赖”的方式结合于GK的活性调节点，修复受损GK的活性与构象，使其恢复对血糖波动的敏感性，从而重建血糖稳态的生理调节环路 <a class="citation" href="#source-3">▧</a>。</p>
+            <h2>2. 多器官协同的“重塑”作用</h2>
+            <p>多格列艾汀的独特之处在于其<strong>双重作用（胰腺+肝脏）与肠道协同</strong>，实现全方位、生理性的血糖调控：</p>
+            <ul>
+              <li><strong>胰岛作用：</strong>激活胰岛β细胞GK，恢复葡萄糖刺激的胰岛素分泌（GSIS）阈值，特别是修复关键的<strong>胰岛素早相分泌</strong>（餐后0-30分钟），这是控制餐后血糖峰值的关键。同时调节GLP-1分泌，改善β细胞功能并降低胰岛素抵抗 <a class="citation" href="#source-2">▧</a>。</li>
+              <li><strong>肝脏作用：</strong>在餐后高血糖状态下（&gt;10 mmol/L），激活肝细胞GK，促进葡萄糖磷酸化及糖原合成，抑制肝糖输出，有效降低空腹血糖 <a class="citation" href="#source-2">▧</a>。</li>
+              <li><strong>肠道作用：</strong>激活肠道内分泌细胞GK，促进GLP-1分泌，进一步放大促胰岛素分泌作用 <a class="citation" href="#source-2">▧</a>。</li>
+            </ul>
+            <h2>3. 临床适应症与获批情况</h2>
+            <p>多格列艾汀于2022年9月30日获得中国国家药品监督管理局（NMPA）批准上市 <a class="citation" href="#source-1">▧</a>。其获批适应症包括：</p>
+            <ul>
+              <li><strong>单药治疗：</strong>配合饮食控制和运动，改善成人2型糖尿病患者的血糖控制。</li>
+              <li><strong>联合治疗：</strong>在单独使用盐酸二甲双胍血糖控制不佳时，可与盐酸二甲双胍联合使用，配合饮食和运动改善成人2型糖尿病患者的血糖控制 <a class="citation" href="#source-1">▧</a>。</li>
+              <li><strong>禁忌症：</strong>本品不适用于治疗1型糖尿病、糖尿病酮症酸中毒或高血糖高渗状态 <a class="citation" href="#source-1">▧</a>。</li>
+            </ul>
+            <h2>4. 临床获益与安全性</h2>
+            <ul>
+              <li><strong>全面降糖：</strong>临床试验显示，多格列艾汀不仅能显著降低糖化血红蛋白（HbA1c），对空腹血糖和餐后血糖均有改善作用，其中对餐后血糖的降低尤为显著 <a class="citation" href="#source-2">▧</a>。</li>
+              <li><strong>改善β细胞功能：</strong>多项研究证实，多格列艾汀可改善胰岛素早相分泌，提高HOMA2-β指数，具有保护β细胞功能的潜力 <a class="citation" href="#source-2">▧</a>。</li>
+              <li><strong>糖尿病缓解潜力：</strong>DREAM研究（SEED研究的拓展研究）显示，经多格列艾汀治疗血糖达标后停药，部分患者在52周内实现了糖尿病缓解（概率达65.2%），提示其在重塑血糖稳态、实现疾病缓解方面具有独特优势 <a class="citation" href="#source-4">▧</a>。</li>
+              <li><strong>安全性特征：</strong>因其葡萄糖浓度依赖机制，低血糖风险极低，临床试验中未报告严重低血糖事件。常见的不良反应包括轻度、一过性的肝酶升高、甘油三酯升高或尿酸升高，通常不随治疗时间延长而加重 <a class="citation" href="#source-1">▧</a>。</li>
+              <li><strong>特殊人群适用性：</strong>多格列艾汀主要经肝脏代谢，肾功能不全患者（包括终末期肾脏病未透析患者）无需调整剂量；轻度肝功能损害患者也无需调整剂量，但中重度肝功能损害患者不推荐使用 <a class="citation" href="#source-1">▧</a>。</li>
+            </ul>
+            <p class="answer-disclaimer">内容为AI生成，请在分享之前与医学部确认内容正确性和合理性</p>
+            <section class="sources" aria-label="参考来源">
+              <div class="sources-card">
+                <div class="sources-heading"><h2>参考来源</h2><button class="expand-all" type="button" aria-expanded="false">全部展开⌄</button></div>
+                <ol class="source-list">
+                  <li id="source-1"><span class="source-index">1</span><a href="https://paper-lib.huamedicine.com/papers/sha256_d64ae76b8f764fc0be1eda84267d05326ddd7fa429b4955df82044328105f469.html" target="_blank" rel="noreferrer">多格列艾汀片说明书</a><span class="source-meta">国家药品监督管理局 <i>|</i> 2024</span><span class="source-url">https://paper-lib.huamedicine.com/papers/sha256_d64ae76b8f764fc0be1eda84267d05326ddd7fa429b4955df82044328105f469.html</span></li>
+                  <li id="source-2"><span class="source-index">2</span><a href="https://paper-lib.huamedicine.com/papers/sha256_cd9fb67b7398ac47edca57e95f5db4fd0af0f95c252d1c59f2af450f70252258.html" target="_blank" rel="noreferrer">多格列艾汀治疗2型糖尿病的研究进展</a><span class="source-meta">中国临床药理学杂志 <i>|</i> 2023</span><span class="source-url">https://paper-lib.huamedicine.com/papers/sha256_cd9fb67b7398ac47edca57e95f5db4fd0af0f95c252d1c59f2af450f70252258.html</span></li>
+                  <li id="source-3"><span class="source-index">3</span><a href="https://paper-lib.huamedicine.com/papers/sha256_9bfa719dd5235452f6c02fed83bc0cc257dd12e95d6e9f70e004b371e49f122f.html" target="_blank" rel="noreferrer">多格列艾汀临床应用专家指导意见</a><span class="source-meta">中华内分泌代谢杂志 <i>|</i> 2023</span><span class="source-url">https://paper-lib.huamedicine.com/papers/sha256_9bfa719dd5235452f6c02fed83bc0cc257dd12e95d6e9f70e004b371e49f122f.html</span></li>
+                  <li id="source-4"><span class="source-index">4</span><a href="https://paper-lib.huamedicine.com/papers/sha256_6926b9cc7aca26850768afa6" target="_blank" rel="noreferrer">FAQ问答对_20251010</a><span class="source-meta">华领医药内部资料 <i>|</i> 2025</span><span class="source-url">https://paper-lib.huamedicine.com/papers/sha256_6926b9cc7aca26850768afa6</span></li>
+                </ol>
+              </div>
+              <div class="sources-actions"><button type="button" data-action="generate-mindmap">生成思维导图</button><button type="button" data-action="generate-ppt">生成PPT</button><button type="button" data-prompt="">查看推荐提问</button></div>
+            </section>
+          </div>
+        </article>
+        </template>
+      </div>
+      <form class="composer" id="composer"><button class="attach" type="button" aria-label="添加附件">⌕</button><input id="question-input" aria-label="输入问题" placeholder="输入问题，发送 [Enter]换行 [Ctrl(Alt/Shift) + Enter]" autocomplete="off"><button class="mic" type="button" aria-label="语音输入">♩</button><button class="send" id="send-button" type="submit" aria-label="发送">➤</button></form>
+    </main>
+
+    <aside class="recommendations" id="recommendations-panel"><div class="recommend-heading"><div class="recommend-title">猜您想问</div><button class="shuffle-recommendations" id="shuffle-recommendations" type="button" aria-label="换一批推荐问题"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3h4v4M21 3l-5 5a7 7 0 0 1-5 2H5M7 21H3v-4M3 21l5-5a7 7 0 0 1 5-2h6M17 18l4 3v-4"/></svg><span>换一批</span></button></div><div class="recommend-list">
+      <button class="recommend-item" type="button" data-question="什么是多格列艾汀？"><span class="index">01</span><span>什么是多格列艾汀？</span></button>
+      <button class="recommend-item" type="button" data-question="多格列艾汀的血糖稳态作用机制？"><span class="index">02</span><span>多格列艾汀的血糖稳态作用<br>机制？</span></button>
+      <button class="recommend-item" type="button" data-question="多格列艾汀的推荐用法用量是多少？"><span class="index">03</span><span>多格列艾汀的推荐用法用量<br>是多少？</span></button>
+      <button class="recommend-item" type="button" data-question="肾功能不全患者如何使用多格列艾汀？"><span class="index">04</span><span>肾功能不全患者如何使用多<br>格列艾汀？</span></button>
+      <button class="recommend-item" type="button" data-question="多格列艾汀与二甲双胍联用有哪些注意事项？"><span class="index">05</span><span>多格列艾汀与二甲双胍联用<br>有哪些注意事项？</span></button>
+      <button class="recommend-item active" type="button" data-question="多格列艾汀常见的不良反应有哪些？"><span class="index">06</span><span>多格列艾汀常见的不良反应<br>有哪些？</span></button>
+    </div></aside>
+  </div>
+  <script>
+    const input = document.querySelector('#question-input');
+    const welcomeView = document.querySelector('#welcome-view');
+    const conversationThread = document.querySelector('#conversation-thread');
+    const answerTemplate = document.querySelector('#answer-template');
+    const makeMindMapPdf = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1600;
+      canvas.height = 1000;
+      const context = canvas.getContext('2d');
+      context.fillStyle = '#f5f8fc';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = '#e7f0ff';
+      context.beginPath();
+      context.arc(1440, 70, 230, 0, Math.PI * 2);
+      context.fill();
+      context.fillStyle = '#eaf6f4';
+      context.beginPath();
+      context.arc(80, 940, 180, 0, Math.PI * 2);
+      context.fill();
+      context.fillStyle = '#eaf1ff';
+      context.beginPath();
+      context.roundRect(70, 54, 280, 38, 19);
+      context.fill();
+      context.fillStyle = '#3979d5';
+      context.font = 'bold 17px Arial, "Microsoft YaHei", sans-serif';
+      context.fillText('GK BIOPHARMA  ·  MEDICAL MAP', 92, 80);
+      context.fillStyle = '#172f53';
+      context.font = 'bold 46px "Microsoft YaHei", "PingFang SC", sans-serif';
+      context.fillText('多格列艾汀 思维导图', 70, 154);
+      context.fillStyle = '#73839a';
+      context.font = '23px "Microsoft YaHei", "PingFang SC", sans-serif';
+      context.fillText('Dorzagliatin（华堂宁®） · 双重葡萄糖激酶激活剂', 73, 196);
+      context.strokeStyle = '#dfe7f1';
+      context.lineWidth = 2;
+      context.beginPath();
+      context.moveTo(70, 218);
+      context.lineTo(1530, 218);
+      context.stroke();
+
+      const center = { x: 580, y: 402, w: 440, h: 196 };
+      const nodes = [
+        { x: 70, y: 255, w: 425, h: 250, color: '#347ff0', number: '01', title: '核心定义与靶点机制', lines: ['靶向人体葡萄糖传感器 GK', '葡萄糖浓度依赖性激活', '重建血糖稳态调节环路'] },
+        { x: 70, y: 650, w: 425, h: 250, color: '#20a58a', number: '02', title: '多器官协同作用', lines: ['胰岛：调节胰岛素分泌', '肝脏：促进糖原合成', '肠道：促进 GLP-1 分泌'] },
+        { x: 1105, y: 255, w: 425, h: 250, color: '#8063d8', number: '03', title: '临床适应症与应用', lines: ['适用于成人 2 型糖尿病', '可单药或与二甲双胍联用', '配合饮食控制和运动'] },
+        { x: 1105, y: 650, w: 425, h: 250, color: '#df9631', number: '04', title: '临床获益与安全性', lines: ['改善 HbA1c 及餐后血糖', '关注肝功能及代谢指标', '特殊人群遵循药品说明书'] }
+      ];
+      context.lineWidth = 7;
+      context.lineCap = 'round';
+      nodes.forEach((node, index) => {
+        context.strokeStyle = node.color + '55';
+        context.beginPath();
+        const left = index < 2;
+        const top = index % 2 === 0;
+        const startX = left ? center.x : center.x + center.w;
+        const startY = center.y + center.h / 2 + (top ? -22 : 22);
+        const endX = left ? node.x + node.w : node.x;
+        const endY = node.y + node.h / 2;
+        context.moveTo(startX, startY);
+        context.bezierCurveTo(left ? startX - 90 : startX + 90, startY, left ? endX + 90 : endX - 90, endY, endX, endY);
+        context.stroke();
+      });
+      const drawCard = node => {
+        context.shadowColor = 'rgba(26, 56, 99, .09)';
+        context.shadowBlur = 20;
+        context.shadowOffsetY = 7;
+        context.fillStyle = '#ffffff';
+        context.beginPath();
+        context.roundRect(node.x, node.y, node.w, node.h, 22);
+        context.fill();
+        context.shadowColor = 'transparent';
+        context.shadowBlur = 0;
+        context.shadowOffsetY = 0;
+        context.strokeStyle = '#e2eaf4';
+        context.lineWidth = 2;
+        context.stroke();
+        context.fillStyle = node.color;
+        context.beginPath();
+        context.arc(node.x + 31, node.y + 42, 18, 0, Math.PI * 2);
+        context.fill();
+        context.fillStyle = '#ffffff';
+        context.font = 'bold 13px Arial, sans-serif';
+        context.textAlign = 'center';
+        context.fillText(node.number, node.x + 31, node.y + 47);
+        context.textAlign = 'left';
+        context.fillStyle = '#1c3558';
+        context.font = 'bold 27px "Microsoft YaHei", "PingFang SC", sans-serif';
+        context.fillText(node.title, node.x + 62, node.y + 51);
+        context.strokeStyle = node.color + '55';
+        context.lineWidth = 2;
+        context.beginPath();
+        context.moveTo(node.x + 25, node.y + 78);
+        context.lineTo(node.x + node.w - 25, node.y + 78);
+        context.stroke();
+        context.fillStyle = '#63758e';
+        context.font = '21px "Microsoft YaHei", "PingFang SC", sans-serif';
+        node.lines.forEach((line, index) => {
+          const lineY = node.y + 123 + index * 39;
+          context.fillStyle = node.color;
+          context.beginPath();
+          context.arc(node.x + 31, lineY - 7, 4, 0, Math.PI * 2);
+          context.fill();
+          context.fillStyle = '#63758e';
+          context.fillText(line, node.x + 48, lineY);
+        });
+      };
+      nodes.forEach(drawCard);
+      context.shadowColor = 'rgba(31, 92, 174, .2)';
+      context.shadowBlur = 28;
+      context.shadowOffsetY = 10;
+      const rootGradient = context.createLinearGradient(center.x, center.y, center.x + center.w, center.y + center.h);
+      rootGradient.addColorStop(0, '#1d62c5');
+      rootGradient.addColorStop(1, '#398ef5');
+      context.fillStyle = rootGradient;
+      context.beginPath();
+      context.roundRect(center.x, center.y, center.w, center.h, 30);
+      context.fill();
+      context.shadowColor = 'transparent';
+      context.shadowBlur = 0;
+      context.shadowOffsetY = 0;
+      context.textAlign = 'center';
+      context.fillStyle = '#ffffff';
+      context.font = 'bold 39px "Microsoft YaHei", "PingFang SC", sans-serif';
+      context.fillText('多格列艾汀', center.x + center.w / 2, center.y + 75);
+      context.font = '22px Arial, "Microsoft YaHei", sans-serif';
+      context.fillStyle = 'rgba(255,255,255,.88)';
+      context.fillText('Dorzagliatin  ·  华堂宁®', center.x + center.w / 2, center.y + 119);
+      context.beginPath();
+      context.roundRect(center.x + 72, center.y + 143, center.w - 144, 34, 17);
+      context.fillStyle = 'rgba(255,255,255,.18)';
+      context.fill();
+      context.font = 'bold 16px "Microsoft YaHei", "PingFang SC", sans-serif';
+      context.fillStyle = '#ffffff';
+      context.fillText('双重葡萄糖激酶（GK）激活剂', center.x + center.w / 2, center.y + 166);
+      context.textAlign = 'left';
+      context.fillStyle = '#98a6ba';
+      context.font = '16px "Microsoft YaHei", "PingFang SC", sans-serif';
+      context.fillText('医学知识导图  ·  内容仅供专业人士参考', 72, 962);
+
+      const jpeg = atob(canvas.toDataURL('image/jpeg', 0.94).split(',')[1]);
+      const imageBytes = Uint8Array.from(jpeg, char => char.charCodeAt(0));
+      const encoder = new TextEncoder();
+      const chunks = [];
+      let byteLength = 0;
+      const add = bytes => { chunks.push(bytes); byteLength += bytes.length; };
+      const addText = text => add(encoder.encode(text));
+      addText('%PDF-1.4\n');
+      const offsets = [0];
+      const objects = [
+        '<< /Type /Catalog /Pages 2 0 R >>',
+        '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+        '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 800 500] /Resources << /XObject << /Im0 5 0 R >> >> /Contents 4 0 R >>'
+      ];
+      objects.forEach((object, index) => {
+        offsets[index + 1] = byteLength;
+        addText(`${index + 1} 0 obj\n${object}\nendobj\n`);
+      });
+      const pageStream = 'q\n800 0 0 500 0 0 cm\n/Im0 Do\nQ\n';
+      offsets[4] = byteLength;
+      addText(`4 0 obj\n<< /Length ${encoder.encode(pageStream).length} >>\nstream\n${pageStream}endstream\nendobj\n`);
+      offsets[5] = byteLength;
+      addText(`5 0 obj\n<< /Type /XObject /Subtype /Image /Width ${canvas.width} /Height ${canvas.height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${imageBytes.length} >>\nstream\n`);
+      add(imageBytes);
+      addText('\nendstream\nendobj\n');
+      const xrefOffset = byteLength;
+      addText(`xref\n0 6\n0000000000 65535 f \n${offsets.slice(1).map(offset => `${String(offset).padStart(10, '0')} 00000 n \n`).join('')}trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`);
+      return {
+        pdfUrl: URL.createObjectURL(new Blob(chunks, { type: 'application/pdf' })),
+        previewUrl: canvas.toDataURL('image/jpeg', 0.82)
+      };
+    };
+    const makeMindMapPpt = () => {
+      const preview = makeMindMapPdf();
+      URL.revokeObjectURL(preview.pdfUrl);
+      const enc = new TextEncoder();
+      const image = Uint8Array.from(atob(preview.previewUrl.split(',')[1]), c => c.charCodeAt(0));
+      const w = 12192000, h = 7620000, header = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+      const parts = [
+        ['[Content_Types].xml', `${header}<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="jpg" ContentType="image/jpeg"/><Override PartName="/ppt/presentation.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml"/><Override PartName="/ppt/slides/slide1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slide+xml"/><Override PartName="/ppt/slideLayouts/slideLayout1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideLayout+xml"/><Override PartName="/ppt/slideMasters/slideMaster1.xml" ContentType="application/vnd.openxmlformats-officedocument.presentationml.slideMaster+xml"/><Override PartName="/ppt/theme/theme1.xml" ContentType="application/vnd.openxmlformats-officedocument.theme+xml"/></Types>`],
+        ['_rels/.rels', `${header}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="ppt/presentation.xml"/></Relationships>`],
+        ['ppt/presentation.xml', `${header}<p:presentation xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"><p:sldMasterIdLst><p:sldMasterId id="2147483648" r:id="rId1"/></p:sldMasterIdLst><p:sldIdLst><p:sldId id="256" r:id="rId2"/></p:sldIdLst><p:sldSz cx="${w}" cy="${h}" type="wide"/><p:notesSz cx="6858000" cy="9144000"/></p:presentation>`],
+        ['ppt/_rels/presentation.xml.rels', `${header}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster" Target="slideMasters/slideMaster1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide" Target="slides/slide1.xml"/></Relationships>`],
+        ['ppt/slides/slide1.xml', `${header}<p:sld xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"><p:cSld><p:spTree><p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr><p:pic><p:nvPicPr><p:cNvPr id="2" name="多格列艾汀思维导图"/><p:cNvPicPr><a:picLocks noChangeAspect="1"/></p:cNvPicPr><p:nvPr/></p:nvPicPr><p:blipFill><a:blip r:embed="rId1"/><a:stretch><a:fillRect/></a:stretch></p:blipFill><p:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${w}" cy="${h}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></p:spPr></p:pic></p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sld>`],
+        ['ppt/slides/_rels/slide1.xml.rels', `${header}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="../media/map.jpg"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/></Relationships>`],
+        ['ppt/slideLayouts/slideLayout1.xml', `${header}<p:sldLayout xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" type="blank" preserve="1"><p:cSld name="Blank"><p:spTree><p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr></p:spTree></p:cSld><p:clrMapOvr><a:masterClrMapping/></p:clrMapOvr></p:sldLayout>`],
+        ['ppt/slideLayouts/_rels/slideLayout1.xml.rels', `${header}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideMaster" Target="../slideMasters/slideMaster1.xml"/></Relationships>`],
+        ['ppt/slideMasters/slideMaster1.xml', `${header}<p:sldMaster xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main"><p:cSld><p:spTree><p:nvGrpSpPr><p:cNvPr id="1" name=""/><p:cNvGrpSpPr/><p:nvPr/></p:nvGrpSpPr><p:grpSpPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="0" cy="0"/><a:chOff x="0" y="0"/><a:chExt cx="0" cy="0"/></a:xfrm></p:grpSpPr></p:spTree></p:cSld><p:clrMap accent1="347FF0" accent2="20A58A" accent3="8063D8" accent4="DF9631" accent5="64A4FF" accent6="98A6BA" bg1="lt1" bg2="lt2" folHlink="folHlink" hlink="hlink" tx1="dk1" tx2="dk2"/><p:sldLayoutIdLst><p:sldLayoutId id="1" r:id="rId1"/></p:sldLayoutIdLst><p:txStyles><p:titleStyle/><p:bodyStyle/><p:otherStyle/></p:txStyles></p:sldMaster>`],
+        ['ppt/slideMasters/_rels/slideMaster1.xml.rels', `${header}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/slideLayout" Target="../slideLayouts/slideLayout1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="../theme/theme1.xml"/></Relationships>`],
+        ['ppt/theme/theme1.xml', `${header}<a:theme xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" name="GK Theme"><a:themeElements><a:clrScheme name="GK"><a:dk1><a:srgbClr val="172F53"/></a:dk1><a:lt1><a:srgbClr val="FFFFFF"/></a:lt1><a:dk2><a:srgbClr val="44546A"/></a:dk2><a:lt2><a:srgbClr val="F5F8FC"/></a:lt2><a:accent1><a:srgbClr val="347FF0"/></a:accent1><a:accent2><a:srgbClr val="20A58A"/></a:accent2><a:accent3><a:srgbClr val="8063D8"/></a:accent3><a:accent4><a:srgbClr val="DF9631"/></a:accent4><a:accent5><a:srgbClr val="64A4FF"/></a:accent5><a:accent6><a:srgbClr val="98A6BA"/></a:accent6><a:hlink><a:srgbClr val="0563C1"/></a:hlink><a:folHlink><a:srgbClr val="954F72"/></a:folHlink></a:clrScheme><a:fontScheme name="GK"><a:majorFont><a:latin typeface="Arial"/><a:ea typeface="Microsoft YaHei"/></a:majorFont><a:minorFont><a:latin typeface="Arial"/><a:ea typeface="Microsoft YaHei"/></a:minorFont></a:fontScheme><a:fmtScheme name="GK"><a:fillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:fillStyleLst><a:lnStyleLst><a:ln w="6350"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill></a:ln></a:lnStyleLst><a:effectStyleLst><a:effectStyle><a:effectLst/></a:effectStyle></a:effectStyleLst><a:bgFillStyleLst><a:solidFill><a:schemeClr val="lt1"/></a:solidFill></a:bgFillStyleLst></a:fmtScheme></a:themeElements></a:theme>`],
+        ['ppt/media/map.jpg', image]
+      ];
+      const table=Array.from({length:256},(_,n)=>{let c=n;for(let i=0;i<8;i++)c=(c&1)?0xedb88320^(c>>>1):c>>>1;return c>>>0;});
+      const crc=bytes=>{let c=0xffffffff;for(const b of bytes)c=table[(c^b)&255]^(c>>>8);return(c^0xffffffff)>>>0;};
+      const locals=[],centrals=[];let offset=0;
+      const u16=(v,p,n)=>v.setUint16(p,n,true),u32=(v,p,n)=>v.setUint32(p,n,true);
+      for(const [name,value] of parts){const nb=enc.encode(name),data=value instanceof Uint8Array?value:enc.encode(value),sum=crc(data);const lh=new Uint8Array(30+nb.length),lv=new DataView(lh.buffer);u32(lv,0,0x04034b50);u16(lv,4,20);u16(lv,6,0x800);u16(lv,8,0);u16(lv,12,0x21);u32(lv,14,sum);u32(lv,18,data.length);u32(lv,22,data.length);u16(lv,26,nb.length);lh.set(nb,30);locals.push(lh,data);const ch=new Uint8Array(46+nb.length),cv=new DataView(ch.buffer);u32(cv,0,0x02014b50);u16(cv,4,20);u16(cv,6,20);u16(cv,8,0x800);u16(cv,10,0);u16(cv,14,0x21);u32(cv,16,sum);u32(cv,20,data.length);u32(cv,24,data.length);u16(cv,28,nb.length);u32(cv,42,offset);ch.set(nb,46);centrals.push(ch);offset+=lh.length+data.length;}
+      const centralSize=centrals.reduce((n,b)=>n+b.length,0),end=new Uint8Array(22),ev=new DataView(end.buffer);u32(ev,0,0x06054b50);u16(ev,8,parts.length);u16(ev,10,parts.length);u32(ev,12,centralSize);u32(ev,16,offset);
+      const zip=new Uint8Array(offset+centralSize+22);let at=0;for(const chunk of [...locals,...centrals,end]){zip.set(chunk,at);at+=chunk.length;}
+      return { pptUrl: URL.createObjectURL(new Blob([zip],{type:'application/vnd.openxmlformats-officedocument.presentationml.presentation'})), previewUrl: preview.previewUrl };
+    };
+    const addMindMapCard = (turn, kind = 'pdf') => {
+      const card = document.createElement('div');
+      card.className = 'generated-file-card';
+      card.dataset.kind = kind;
+      const preview = document.createElement('div');
+      preview.className = 'mindmap-preview';
+      const previewImage = document.createElement('img');
+      previewImage.alt = '多格列艾汀思维导图预览';
+      preview.appendChild(previewImage);
+      const info = document.createElement('div');
+      info.className = 'generated-file-info';
+      const filename = document.createElement('div');
+      filename.className = 'generated-file-name';
+      const isPpt = kind === 'ppt';
+      const filenameText = isPpt ? 'GK充电宝_总结要点.pptx' : 'GK充电宝_思维导图.pdf';
+      const createFile = isPpt ? makeMindMapPpt : makeMindMapPdf;
+      filename.textContent = filenameText;
+      const status = document.createElement('div');
+      status.className = 'generated-file-status';
+      status.innerHTML = `<strong>✓</strong>${isPpt ? 'PPT已生成，可下载查看' : 'PDF已生成，可下载查看'}`;
+      const regenerate = document.createElement('button');
+      regenerate.className = 'regenerate-pdf';
+      regenerate.type = 'button';
+      regenerate.textContent = `重新生成${isPpt ? 'PPT' : 'PDF'}`;
+      info.append(filename, status, regenerate);
+      const download = document.createElement('a');
+      download.className = 'download-pdf';
+      download.download = filenameText;
+      download.innerHTML = `<span aria-hidden="true">⇩</span>下载${isPpt ? 'PPT' : 'PDF'}`;
+      card.append(preview, info, download);
+      const file = createFile();
+      download.href = isPpt ? file.pptUrl : file.pdfUrl;
+      download.dataset.objectUrl = download.href;
+      previewImage.src = file.previewUrl;
+      turn.appendChild(card);
+      requestAnimationFrame(() => card.scrollIntoView({ block: 'center', behavior: 'smooth' }));
+    };
+    const sendQuestion = () => {
+      const question = input.value.trim();
+      if (!question) { input.focus(); return; }
+      const turn = document.createElement('section');
+      turn.className = 'conversation-turn';
+      const questionBubble = document.createElement('div');
+      questionBubble.className = 'sent-question';
+      questionBubble.textContent = question;
+      turn.appendChild(questionBubble);
+      turn.appendChild(answerTemplate.content.cloneNode(true));
+      conversationThread.appendChild(turn);
+      welcomeView.hidden = true;
+      document.querySelector('.topbar span').textContent = question;
+      input.value = '';
+      requestAnimationFrame(() => turn.scrollIntoView({ block: 'start', behavior: 'smooth' }));
+    };
+    const appShell = document.querySelector('.app-shell');
+    const recommendToggle = document.querySelector('#recommend-toggle');
+    const updateRecommendationLabels = () => {
+      const isOpen = appShell.classList.contains('recommendations-open');
+      recommendToggle.setAttribute('aria-expanded', String(isOpen));
+      conversationThread.querySelectorAll('.sources-actions [data-prompt=""]').forEach((button) => {
+        button.textContent = isOpen ? '收起推荐提问' : '查看推荐提问';
+      });
+    };
+    const recommendButtons = [...document.querySelectorAll('.recommend-item')];
+    const recommendationBatches = [
+      [
+        '什么是多格列艾汀？',
+        '多格列艾汀的血糖稳态作用机制？',
+        '多格列艾汀的推荐用法用量是多少？',
+        '肾功能不全患者如何使用多格列艾汀？',
+        '多格列艾汀与二甲双胍联用有哪些注意事项？',
+        '多格列艾汀常见的不良反应有哪些？'
+      ],
+      [
+        '多格列艾汀的作用机制是什么？',
+        '多格列艾汀的临床研究主要疗效结果是什么？',
+        '多格列艾汀对餐后血糖有什么影响？',
+        '多格列艾汀如何改善胰岛β细胞功能？',
+        '多格列艾汀的安全性如何？',
+        '多格列艾汀适用于哪些患者？'
+      ]
+    ];
+    let recommendationBatch = 0;
+    document.querySelector('#shuffle-recommendations').addEventListener('click', () => {
+      recommendationBatch = (recommendationBatch + 1) % recommendationBatches.length;
+      recommendButtons.forEach((button, index) => {
+        const question = recommendationBatches[recommendationBatch][index];
+        button.dataset.question = question;
+        button.querySelector('.index').textContent = String(index + 1).padStart(2, '0');
+        button.querySelector('span:not(.index)').textContent = question;
+      });
+    });
+    recommendToggle.addEventListener('click', () => {
+      appShell.classList.toggle('recommendations-open');
+      updateRecommendationLabels();
+    });
+    conversationThread.addEventListener('click', (event) => {
+      const generationButton = event.target.closest('[data-action="generate-mindmap"], [data-action="generate-ppt"]');
+      if (generationButton) {
+        const turn = generationButton.closest('.conversation-turn');
+        const kind = generationButton.dataset.action === 'generate-ppt' ? 'ppt' : 'pdf';
+        const existingCard = turn.querySelector(`.generated-file-card[data-kind="${kind}"]`);
+        if (existingCard) existingCard.querySelector('.regenerate-pdf').click();
+        else addMindMapCard(turn, kind);
+        return;
+      }
+      const regenerateButton = event.target.closest('.regenerate-pdf');
+      if (regenerateButton) {
+        const card = regenerateButton.closest('.generated-file-card');
+        const download = card.querySelector('.download-pdf');
+        if (download.dataset.objectUrl) URL.revokeObjectURL(download.dataset.objectUrl);
+        const isPpt = card.dataset.kind === 'ppt';
+        const file = isPpt ? makeMindMapPpt() : makeMindMapPdf();
+        download.href = isPpt ? file.pptUrl : file.pdfUrl;
+        download.dataset.objectUrl = download.href;
+        card.querySelector('.mindmap-preview img').src = file.previewUrl;
+        card.querySelector('.generated-file-status').innerHTML = `<strong>✓</strong>${isPpt ? 'PPT' : 'PDF'}已重新生成，可下载查看`;
+        return;
+      }
+      const expandButton = event.target.closest('.expand-all');
+      if (expandButton) {
+        const sources = expandButton.closest('.sources');
+        const expanded = sources.classList.toggle('expanded');
+        expandButton.setAttribute('aria-expanded', String(expanded));
+        expandButton.textContent = expanded ? '收起⌃' : '全部展开⌄';
+        return;
+      }
+      const actionButton = event.target.closest('[data-prompt]');
+      if (actionButton) {
+        if (actionButton.dataset.prompt) {
+          input.value = actionButton.dataset.prompt;
+          input.focus();
+        } else {
+          appShell.classList.toggle('recommendations-open');
+          updateRecommendationLabels();
+        }
+      }
+    });
+    document.querySelectorAll('[data-question]').forEach((button) => {
+      button.addEventListener('click', () => {
+        input.value = button.dataset.question;
+        input.focus();
+      });
+    });
+    document.querySelector('#composer').addEventListener('submit', (event) => {
+      event.preventDefault();
+      sendQuestion();
+    });
+    document.querySelector('#send-button').addEventListener('click', (event) => {
+      event.preventDefault();
+      sendQuestion();
+    });
+    document.querySelector('.new-chat').addEventListener('click', () => {
+      input.value = '';
+      conversationThread.replaceChildren();
+      welcomeView.hidden = false;
+      document.querySelector('#composer').hidden = false;
+      document.querySelector('.topbar span').textContent = '新对话';
+      appShell.classList.remove('recommendations-open');
+      updateRecommendationLabels();
+      document.querySelector('.main-content').scrollTop = 0;
+    });
+  </script>
+</body>
+</html>
