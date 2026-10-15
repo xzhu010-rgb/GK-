@@ -105,6 +105,7 @@
     .conversation-turn { min-width: 0; }
     .answer-view { display: block; padding: 4px 2px 10px; }
     .sent-question { width: fit-content; max-width: 82%; margin: 0 0 16px auto; padding: 10px 15px; border-radius: 14px 14px 3px 14px; background: #eaf2ff; color: #29446d; font-size: 15px; }
+    .sent-attachment { width: fit-content; max-width: 82%; margin: -9px 0 14px auto; padding: 7px 11px; border: 1px solid #dfe8f5; border-radius: 10px; color: #7487a2; background: #fff; font-size: 12px; overflow-wrap: anywhere; }
     .answer-toolbar { display: flex; align-items: center; gap: 0; margin: 0 0 12px; color: #7e8ca4; }
     .answer-logo { width: 48px; height: 48px; margin-right: 14px; display: grid; place-items: center; border: 1px solid #e5ebf5; border-radius: 12px; background: white; color: #16aaa9; font-size: 11px; font-weight: 800; }
     .answer-action { width: 37px; height: 37px; border: 1px solid #dce4f0; background: #fff; color: #8392aa; font-size: 18px; }
@@ -139,6 +140,32 @@
     .mindmap-preview { position: relative; min-width: 0; height: 142px; overflow: hidden; border: 1px solid #e6edf6; border-radius: 12px; background: #f4f8fd; }
     .mindmap-preview img { display: block; width: 100%; height: 100%; object-fit: cover; }
     .mindmap-preview::after { content: "思维导图预览"; position: absolute; right: 8px; bottom: 8px; padding: 4px 8px; border: 1px solid rgba(255,255,255,.8); border-radius: 20px; background: rgba(255,255,255,.9); color: #63758e; font-size: 10px; }
+    .mindmap-result-card { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    .mindmap-result-card .mindmap-preview { height: 220px; }
+    .mindmap-result-card .mindmap-preview img { object-fit: cover; }
+    .card-actions { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+    .card-actions .regenerate-pdf { margin-top: 0; }
+    .view-large, .attachment-remove { border: 0; padding: 0; background: transparent; color: #2475e8; font-size: 12px; }
+    .ppt-config { width: min(100%, 900px); margin: 16px 0 10px; padding: 18px; border: 1px solid #e1e9f2; border-radius: 14px; background: #fff; }
+    .ppt-config h3 { margin: 0; color: #263b5b; font-size: 16px; }
+    .ppt-config p { margin: 8px 0 14px; color: #8797af; font-size: 13px; }
+    .ppt-include-option { display: flex; align-items: flex-start; gap: 10px; padding: 12px 0; border-top: 1px solid #e7edf5; color: #354c6c; font-size: 14px; }
+    .ppt-include-option input { margin: 2px 0 0; accent-color: #1677f8; }
+    .ppt-include-option small { display: block; margin-top: 4px; color: #95a3b8; font-size: 12px; }
+    .start-ppt { width: 100%; min-height: 42px; margin-top: 6px; border: 0; border-radius: 9px; background: #1677f8; color: #fff; font-weight: 600; }
+    .start-ppt:disabled { cursor: wait; opacity: .68; }
+    .ppt-progress { display: flex; align-items: center; gap: 8px; margin-top: 11px; color: #5381c6; font-size: 13px; }
+    .ppt-progress[hidden] { display: none; }
+    .ppt-progress::before { width: 13px; height: 13px; content: ""; border: 2px solid #cfe0f8; border-top-color: #2679ed; border-radius: 50%; animation: ppt-spin .8s linear infinite; }
+    @keyframes ppt-spin { to { transform: rotate(360deg); } }
+    .ppt-results { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+    .ppt-file-card { width: 100%; grid-template-columns: 86px minmax(0, 1fr) auto; gap: 12px; }
+    .ppt-file-card .mindmap-preview { height: 74px; }
+    .ppt-file-card .mindmap-preview::after { display: none; }
+    .image-viewer { width: min(1100px, calc(100vw - 32px)); max-width: none; max-height: calc(100vh - 32px); padding: 42px 18px 18px; border: 1px solid #dce6f4; border-radius: 16px; background: #fff; }
+    .image-viewer::backdrop { background: rgba(13, 34, 67, .58); }
+    .image-viewer img { display: block; width: 100%; max-height: calc(100vh - 100px); object-fit: contain; }
+    .image-viewer-close { position: absolute; top: 10px; right: 12px; width: 30px; height: 30px; border: 1px solid #e2e9f3; border-radius: 50%; background: #fff; color: #52627b; font-size: 18px; }
     .pdf-icon { display: none; }
     .generated-file-info { min-width: 0; flex: 1; }
     .generated-file-name { color: #1f3555; font-size: 16px; font-weight: 700; overflow-wrap: anywhere; }
@@ -149,7 +176,9 @@
     .download-pdf { flex: 0 0 auto; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 126px; height: 44px; padding: 0 17px; border-radius: 12px; background: #1677f8; color: #fff; font-size: 14px; font-weight: 600; text-decoration: none; transition: transform .18s; }
     .download-pdf:hover { transform: translateY(-1px); }
     .composer { height: 56px; flex: 0 0 56px; margin: 0 18px 14px; border: 1px solid #e1e9f5; border-radius: 11px; display: flex; align-items: center; gap: 12px; padding: 0 11px 0 14px; background: #fff; }
-    .composer .attach, .composer .mic { border: 0; background: none; color: #7288ab; font-size: 24px; width: 26px; padding: 0; } .composer .mic { font-size: 22px; }
+    .composer .attach, .composer .mic { border: 0; background: none; color: #7288ab; font-size: 24px; width: 26px; padding: 0; } .composer .attach svg { display: block; width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; } .composer .mic { font-size: 22px; }
+    .attachment-name { max-width: 150px; overflow: hidden; color: #7288ab; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
+    .attachment-name[hidden] { display: none; }
     .composer input { border: 0; outline: 0; flex: 1; min-width: 0; font-size: 13px; color: #526887; } .composer input::placeholder { color: #93a5c1; }
     .send { width: 35px; height: 35px; border: 0; border-radius: 9px; background: #a9c9ff; color: white; font-size: 22px; line-height: 1; transition: .2s; } .send:hover { background: #4b8af2; }
     .recommendations { display: none; min-width: 0; padding: 17px 19px; color: #f5f8ff; background: linear-gradient(180deg, rgba(17,65,140,.6), rgba(10,51,113,.75)); }
@@ -167,6 +196,7 @@
     .recommend-item .index { width: 23px; height: 23px; border-radius: 50%; display: grid; place-items: center; flex: 0 0 auto; background: rgba(255,213,84,.16); color: #ffdb67; font-size: 11px; font-weight: 700; }
     @media (max-width: 980px) { .app-shell { grid-template-columns: 220px minmax(0, 1fr); } .app-shell.recommendations-open { grid-template-columns: 220px minmax(0, 1fr) 240px; } }
     @media (max-width: 760px) { .generated-file-card { grid-template-columns: 84px minmax(0, 1fr); gap: 12px; padding: 12px; } .mindmap-preview { height: 90px; } .mindmap-preview::after { display: none; } .generated-file-info { grid-column: 2; grid-row: 1; } .download-pdf { grid-column: 1 / -1; width: 100%; } }
+    @media (max-width: 760px) { .mindmap-result-card { grid-template-columns: minmax(0, 1fr); } .mindmap-result-card .mindmap-preview { height: 150px; } .mindmap-result-card .generated-file-info { grid-column: 1; grid-row: auto; } .ppt-results { grid-template-columns: 1fr; } .ppt-file-card { grid-template-columns: 84px minmax(0, 1fr); } .ppt-file-card .download-pdf { grid-column: 1 / -1; width: 100%; } }
     *, *::before, *::after { text-shadow: none !important; }
     @media (max-width: 680px) { body { background: #f4f8ff; } .app-shell { width: 100%; height: 100vh; min-height: 0; margin: 0; border-radius: 0; display: block; } .sidebar { display: none; } .main { height: 100vh; } .topbar { height: 58px; flex: 0 0 58px; } .main-content { padding: 10px; } .hero { min-height: 0; padding: 22px 20px 278px; border-radius: 19px; background-size: auto 260px; background-position: right bottom 48px; } .hero-copy { max-width: 100%; width: 100%; } .eyebrow { font-size: 12px; } h1 { font-size: clamp(23px, 7vw, 29px); } .tagline { font-size: 16px; margin: 9px 0 12px; } .intro { font-size: 13px; } .intro br { display: none; } .notice { position: relative; inset: auto; margin-top: 8px; min-height: 0; padding: 10px 12px; border-radius: 13px; font-size: 11px; } .notice .info { width: 19px; height: 19px; font-size: 14px; } .questions { grid-template-columns: 1fr; } .composer { margin: 0 10px 10px; } .answer-body { padding: 16px 14px; font-size: 15px; } .answer-body h2 { font-size: 20px; } .sources-card { padding: 14px 13px 6px; } .source-list li { grid-template-columns: 22px minmax(0, 1fr); gap: 5px 8px; } .source-meta { grid-column: 2; white-space: normal; font-size: 12px; } .source-url { grid-column: 2; } .sources-actions button { font-size: 12px; } .generated-file-card { width: 100%; margin: 12px 0; } .recommendations-open .recommendations { position: absolute; z-index: 5; top: 0; right: 0; bottom: 0; width: min(290px, 86vw); } }
   </style>
@@ -263,7 +293,7 @@
         </article>
         </template>
       </div>
-      <form class="composer" id="composer"><button class="attach" type="button" aria-label="添加附件">⌕</button><input id="question-input" aria-label="输入问题" placeholder="输入问题，发送 [Enter]换行 [Ctrl(Alt/Shift) + Enter]" autocomplete="off"><button class="mic" type="button" aria-label="语音输入">♩</button><button class="send" id="send-button" type="submit" aria-label="发送">➤</button></form>
+      <form class="composer" id="composer"><button class="attach" id="attach-button" type="button" aria-label="上传文件" title="上传文件"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m20.2 11.4-7.9 7.9a5.2 5.2 0 0 1-7.4-7.4l8.3-8.3a3.5 3.5 0 0 1 5 5l-8.3 8.3a1.8 1.8 0 0 1-2.5-2.5l7.1-7.1"/></svg></button><input id="attachment-input" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.md" hidden><span class="attachment-name" id="attachment-name" hidden></span><input id="question-input" aria-label="输入问题" placeholder="输入问题，发送 [Enter]换行 [Ctrl(Alt/Shift) + Enter]" autocomplete="off"><button class="mic" type="button" aria-label="语音输入">♩</button><button class="send" id="send-button" type="submit" aria-label="发送">➤</button></form>
     </main>
 
     <aside class="recommendations" id="recommendations-panel"><div class="recommend-heading"><div class="recommend-title">猜您想问</div><button class="shuffle-recommendations" id="shuffle-recommendations" type="button" aria-label="换一批推荐问题"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3h4v4M21 3l-5 5a7 7 0 0 1-5 2H5M7 21H3v-4M3 21l5-5a7 7 0 0 1 5-2h6M17 18l4 3v-4"/></svg><span>换一批</span></button></div><div class="recommend-list">
@@ -275,8 +305,17 @@
       <button class="recommend-item active" type="button" data-question="多格列艾汀常见的不良反应有哪些？"><span class="index">06</span><span>多格列艾汀常见的不良反应<br>有哪些？</span></button>
     </div></aside>
   </div>
+  <dialog class="image-viewer" id="mindmap-viewer" aria-label="思维导图大图"><button class="image-viewer-close" type="button" aria-label="关闭大图">×</button><img alt="多格列艾汀思维导图大图"></dialog>
   <script>
     const input = document.querySelector('#question-input');
+    const attachmentInput = document.querySelector('#attachment-input');
+    const attachmentName = document.querySelector('#attachment-name');
+    document.querySelector('#attach-button').addEventListener('click', () => attachmentInput.click());
+    attachmentInput.addEventListener('change', () => {
+      const file = attachmentInput.files[0];
+      attachmentName.textContent = file ? `📎 ${file.name}` : '';
+      attachmentName.hidden = !file;
+    });
     const welcomeView = document.querySelector('#welcome-view');
     const conversationThread = document.querySelector('#conversation-thread');
     const answerTemplate = document.querySelector('#answer-template');
@@ -434,9 +473,111 @@
         previewUrl: canvas.toDataURL('image/jpeg', 0.82)
       };
     };
-    const makeMindMapPpt = () => {
-      const preview = makeMindMapPdf();
-      URL.revokeObjectURL(preview.pdfUrl);
+    const makeMindMapThumbnail = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1500;
+      canvas.height = 430;
+      const context = canvas.getContext('2d');
+      context.fillStyle = '#f2f7ff';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      const center = { x: 565, y: 145, w: 370, h: 140 };
+      const nodes = [
+        { x: 55, y: 42, w: 420, h: 112, title: '核心定义与靶点机制', detail: '葡萄糖传感器 GK · 血糖稳态', color: '#347ff0' },
+        { x: 55, y: 276, w: 420, h: 112, title: '多器官协同作用', detail: '胰腺 · 肝脏 · 肠道', color: '#20a58a' },
+        { x: 1025, y: 42, w: 420, h: 112, title: '临床适应症与应用', detail: '成人 2 型糖尿病 · 联合治疗', color: '#8063d8' },
+        { x: 1025, y: 276, w: 420, h: 112, title: '临床获益与安全性', detail: '疗效 · 安全性 · 特殊人群', color: '#df9631' }
+      ];
+      context.lineWidth = 5;
+      context.lineCap = 'round';
+      nodes.forEach((node, index) => {
+        const left = index < 2;
+        const y1 = center.y + center.h / 2 + (index % 2 === 0 ? -24 : 24);
+        const y2 = node.y + node.h / 2;
+        context.strokeStyle = `${node.color}66`;
+        context.beginPath();
+        context.moveTo(left ? center.x : center.x + center.w, y1);
+        context.bezierCurveTo(left ? 525 : 975, y1, left ? 520 : 980, y2, left ? node.x + node.w : node.x, y2);
+        context.stroke();
+      });
+      nodes.forEach(node => {
+        context.fillStyle = '#ffffff';
+        context.beginPath(); context.roundRect(node.x, node.y, node.w, node.h, 18); context.fill();
+        context.strokeStyle = '#e0e9f5'; context.lineWidth = 2; context.stroke();
+        context.fillStyle = node.color;
+        context.beginPath(); context.roundRect(node.x + 18, node.y + 24, 9, 64, 5); context.fill();
+        context.fillStyle = '#233b5c'; context.font = 'bold 23px "Microsoft YaHei", "PingFang SC", sans-serif';
+        context.fillText(node.title, node.x + 47, node.y + 50);
+        context.fillStyle = '#8191a9'; context.font = '17px "Microsoft YaHei", "PingFang SC", sans-serif';
+        context.fillText(node.detail, node.x + 47, node.y + 81);
+      });
+      const gradient = context.createLinearGradient(center.x, center.y, center.x + center.w, center.y + center.h);
+      gradient.addColorStop(0, '#1d62c5'); gradient.addColorStop(1, '#398ef5');
+      context.fillStyle = gradient;
+      context.beginPath(); context.roundRect(center.x, center.y, center.w, center.h, 22); context.fill();
+      context.textAlign = 'center'; context.fillStyle = '#ffffff';
+      context.font = 'bold 32px "Microsoft YaHei", "PingFang SC", sans-serif';
+      context.fillText('多格列艾汀', center.x + center.w / 2, center.y + 58);
+      context.font = '18px Arial, "Microsoft YaHei", sans-serif';
+      context.fillText('Dorzagliatin · 华堂宁®', center.x + center.w / 2, center.y + 92);
+      context.textAlign = 'left';
+      return canvas.toDataURL('image/jpeg', .88);
+    };
+    const makeSummaryPreview = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1600;
+      canvas.height = 1000;
+      const context = canvas.getContext('2d');
+      context.fillStyle = '#f7faff';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      context.fillStyle = '#172f53';
+      context.font = 'bold 52px "Microsoft YaHei", "PingFang SC", sans-serif';
+      context.fillText('多格列艾汀 重点总结', 76, 130);
+      context.fillStyle = '#788ba7';
+      context.font = '26px "Microsoft YaHei", "PingFang SC", sans-serif';
+      context.fillText('Dorzagliatin（华堂宁®） · 医学信息摘要', 80, 184);
+      const sections = [
+        ['作用机制', '双重葡萄糖激酶（GK）激活剂', '通过葡萄糖浓度依赖机制调节血糖稳态'],
+        ['作用部位', '胰腺、肝脏与肠道协同', '调节胰岛素、肝糖输出及 GLP-1 分泌'],
+        ['适应症', '成人 2 型糖尿病', '可单药使用或与二甲双胍联合治疗'],
+        ['安全性', '关注个体化用药与监测', '请以现行说明书和专业医疗判断为准']
+      ];
+      sections.forEach(([title, lead, detail], index) => {
+        const x = 76 + (index % 2) * 738;
+        const y = 260 + Math.floor(index / 2) * 300;
+        context.fillStyle = '#ffffff';
+        context.beginPath();
+        context.roundRect(x, y, 680, 248, 24);
+        context.fill();
+        context.strokeStyle = '#dfe8f5';
+        context.lineWidth = 2;
+        context.stroke();
+        context.fillStyle = ['#347ff0', '#20a58a', '#8063d8', '#df9631'][index];
+        context.beginPath();
+        context.arc(x + 44, y + 48, 22, 0, Math.PI * 2);
+        context.fill();
+        context.fillStyle = '#ffffff';
+        context.font = 'bold 18px Arial, sans-serif';
+        context.textAlign = 'center';
+        context.fillText(String(index + 1).padStart(2, '0'), x + 44, y + 55);
+        context.textAlign = 'left';
+        context.fillStyle = '#1c3558';
+        context.font = 'bold 30px "Microsoft YaHei", "PingFang SC", sans-serif';
+        context.fillText(title, x + 82, y + 58);
+        context.fillStyle = '#435b7c';
+        context.font = 'bold 24px "Microsoft YaHei", "PingFang SC", sans-serif';
+        context.fillText(lead, x + 34, y + 125);
+        context.fillStyle = '#788ba7';
+        context.font = '21px "Microsoft YaHei", "PingFang SC", sans-serif';
+        context.fillText(detail, x + 34, y + 174);
+      });
+      context.fillStyle = '#91a0b5';
+      context.font = '18px "Microsoft YaHei", "PingFang SC", sans-serif';
+      context.fillText('内容仅供专业人士参考，请以药品说明书和医学部审核意见为准', 78, 956);
+      return { previewUrl: canvas.toDataURL('image/jpeg', .88) };
+    };
+    const makeMindMapPpt = (includeMindMap = true) => {
+      const preview = includeMindMap ? makeMindMapPdf() : makeSummaryPreview();
+      if (preview.pdfUrl) URL.revokeObjectURL(preview.pdfUrl);
       const enc = new TextEncoder();
       const image = Uint8Array.from(atob(preview.previewUrl.split(',')[1]), c => c.charCodeAt(0));
       const w = 12192000, h = 7620000, header = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
@@ -461,59 +602,114 @@
       for(const [name,value] of parts){const nb=enc.encode(name),data=value instanceof Uint8Array?value:enc.encode(value),sum=crc(data);const lh=new Uint8Array(30+nb.length),lv=new DataView(lh.buffer);u32(lv,0,0x04034b50);u16(lv,4,20);u16(lv,6,0x800);u16(lv,8,0);u16(lv,12,0x21);u32(lv,14,sum);u32(lv,18,data.length);u32(lv,22,data.length);u16(lv,26,nb.length);lh.set(nb,30);locals.push(lh,data);const ch=new Uint8Array(46+nb.length),cv=new DataView(ch.buffer);u32(cv,0,0x02014b50);u16(cv,4,20);u16(cv,6,20);u16(cv,8,0x800);u16(cv,10,0);u16(cv,14,0x21);u32(cv,16,sum);u32(cv,20,data.length);u32(cv,24,data.length);u16(cv,28,nb.length);u32(cv,42,offset);ch.set(nb,46);centrals.push(ch);offset+=lh.length+data.length;}
       const centralSize=centrals.reduce((n,b)=>n+b.length,0),end=new Uint8Array(22),ev=new DataView(end.buffer);u32(ev,0,0x06054b50);u16(ev,8,parts.length);u16(ev,10,parts.length);u32(ev,12,centralSize);u32(ev,16,offset);
       const zip=new Uint8Array(offset+centralSize+22);let at=0;for(const chunk of [...locals,...centrals,end]){zip.set(chunk,at);at+=chunk.length;}
-      return { pptUrl: URL.createObjectURL(new Blob([zip],{type:'application/vnd.openxmlformats-officedocument.presentationml.presentation'})), previewUrl: preview.previewUrl };
+      return { pptUrl: URL.createObjectURL(new Blob([zip],{type:'application/vnd.openxmlformats-officedocument.presentationml.presentation'})), previewUrl: includeMindMap ? makeMindMapThumbnail() : preview.previewUrl };
     };
-    const addMindMapCard = (turn, kind = 'pdf') => {
-      const card = document.createElement('div');
-      card.className = 'generated-file-card';
-      card.dataset.kind = kind;
-      const preview = document.createElement('div');
-      preview.className = 'mindmap-preview';
-      const previewImage = document.createElement('img');
-      previewImage.alt = '多格列艾汀思维导图预览';
-      preview.appendChild(previewImage);
-      const info = document.createElement('div');
-      info.className = 'generated-file-info';
-      const filename = document.createElement('div');
-      filename.className = 'generated-file-name';
-      const isPpt = kind === 'ppt';
-      const filenameText = isPpt ? 'GK充电宝_总结要点.pptx' : 'GK充电宝_思维导图.pdf';
-      const createFile = isPpt ? makeMindMapPpt : makeMindMapPdf;
-      filename.textContent = filenameText;
-      const status = document.createElement('div');
-      status.className = 'generated-file-status';
-      status.innerHTML = `<strong>✓</strong>${isPpt ? 'PPT已生成，可下载查看' : 'PDF已生成，可下载查看'}`;
-      const regenerate = document.createElement('button');
-      regenerate.className = 'regenerate-pdf';
-      regenerate.type = 'button';
-      regenerate.textContent = `重新生成${isPpt ? 'PPT' : 'PDF'}`;
-      info.append(filename, status, regenerate);
-      const download = document.createElement('a');
-      download.className = 'download-pdf';
-      download.download = filenameText;
-      download.innerHTML = `<span aria-hidden="true">⇩</span>下载${isPpt ? 'PPT' : 'PDF'}`;
-      card.append(preview, info, download);
-      const file = createFile();
-      download.href = isPpt ? file.pptUrl : file.pdfUrl;
-      download.dataset.objectUrl = download.href;
-      previewImage.src = file.previewUrl;
-      turn.appendChild(card);
+    const addMindMapCard = (turn) => {
+      let card = turn.querySelector('.generated-file-card[data-kind="mindmap"]');
+      const regenerated = Boolean(card);
+      if (!card) {
+        card = document.createElement('section');
+        card.className = 'generated-file-card mindmap-result-card';
+        card.dataset.kind = 'mindmap';
+        card.innerHTML = `<div class="mindmap-preview"><img alt="多格列艾汀思维导图预览"></div><div class="generated-file-info"><div class="generated-file-name">GK充电宝_思维导图.pdf</div><div class="generated-file-status"><strong>✓</strong>思维导图已生成，可预览或下载</div><div class="card-actions"><button class="regenerate-pdf" type="button">重新生成</button><button class="view-large" type="button">查看大图</button><a class="download-pdf" download="GK充电宝_思维导图.pdf">下载PDF</a></div></div>`;
+        turn.appendChild(card);
+      }
+      const file = makeMindMapPdf();
+      card.dataset.fullPreview = file.previewUrl;
+      const download = card.querySelector('.download-pdf');
+      if (download.dataset.objectUrl) URL.revokeObjectURL(download.dataset.objectUrl);
+      download.href = file.pdfUrl;
+      download.dataset.objectUrl = file.pdfUrl;
+      card.querySelector('.mindmap-preview img').src = makeMindMapThumbnail();
+      card.querySelector('.generated-file-status').innerHTML = `<strong>✓</strong>思维导图已${regenerated ? '重新' : ''}生成，可预览或下载`;
+      const pptCheckbox = turn.querySelector('.include-mindmap');
+      if (pptCheckbox) {
+        pptCheckbox.disabled = false;
+        pptCheckbox.checked = true;
+        const hint = turn.querySelector('.ppt-include-hint');
+        if (hint) hint.textContent = '将已生成的思维导图页面包含在 PPT 中';
+      }
       requestAnimationFrame(() => card.scrollIntoView({ block: 'center', behavior: 'smooth' }));
+    };
+    const createPptCard = (turn, includeMindMap, file) => {
+      const results = turn.querySelector('.ppt-results');
+      const kind = includeMindMap ? 'ppt-with-map' : 'ppt-summary';
+      const filename = includeMindMap ? 'GK充电宝_包含思维导图.pptx' : 'GK充电宝_总结要点.pptx';
+      const previous = results.querySelector(`.ppt-file-card[data-kind="${kind}"]`);
+      if (previous) {
+        const oldLink = previous.querySelector('.download-pdf');
+        if (oldLink.dataset.objectUrl) URL.revokeObjectURL(oldLink.dataset.objectUrl);
+        previous.remove();
+      }
+      const card = document.createElement('section');
+      card.className = 'generated-file-card ppt-file-card';
+      card.dataset.kind = kind;
+      card.innerHTML = `<div class="mindmap-preview"><img alt="${includeMindMap ? '包含思维导图' : '仅总结要点'}的PPT预览"></div><div class="generated-file-info"><div class="generated-file-name">${filename}</div><div class="generated-file-status"><strong>✓</strong>PPT已生成，${includeMindMap ? '包含思维导图' : '仅总结要点'}</div><button class="regenerate-pdf" type="button">重新生成PPT</button></div><a class="download-pdf" download="${filename}"><span aria-hidden="true">⇩</span>下载PPT</a>`;
+      const link = card.querySelector('.download-pdf');
+      link.href = file.pptUrl;
+      link.dataset.objectUrl = file.pptUrl;
+      card.querySelector('.mindmap-preview img').src = file.previewUrl;
+      results.appendChild(card);
+      requestAnimationFrame(() => card.scrollIntoView({ block: 'center', behavior: 'smooth' }));
+    };
+    const showPptConfig = (turn) => {
+      let config = turn.querySelector('.ppt-config');
+      if (config) {
+        const anchor = turn.querySelector('.generated-file-card[data-kind="mindmap"]') || turn.querySelector('.sources');
+        if (anchor && config.previousElementSibling !== anchor) anchor.after(config);
+        config.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        return;
+      }
+      const hasMindMap = Boolean(turn.querySelector('.generated-file-card[data-kind="mindmap"]'));
+      config = document.createElement('section');
+      config.className = 'ppt-config';
+      config.innerHTML = `<h3>PPT内容设置 ⓘ</h3><p>选择是否将已生成的思维导图加入 PPT。</p><label class="ppt-include-option"><input class="include-mindmap" type="checkbox" ${hasMindMap ? 'checked' : 'disabled'}><span><b>包含思维导图</b><small class="ppt-include-hint">${hasMindMap ? '将已生成的思维导图页面包含在 PPT 中' : '尚未生成思维导图，本次默认生成总结要点版'}</small></span></label><button class="start-ppt" type="button">开始生成PPT</button><div class="ppt-progress" role="status" hidden></div><div class="ppt-results" aria-live="polite"></div>`;
+      const anchor = turn.querySelector('.generated-file-card[data-kind="mindmap"]') || turn.querySelector('.sources');
+      if (anchor) anchor.after(config);
+      else turn.appendChild(config);
+      config.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    };
+    const startPptGeneration = (button) => {
+      const config = button.closest('.ppt-config');
+      const turn = button.closest('.conversation-turn');
+      const checkbox = config.querySelector('.include-mindmap');
+      const hasMindMap = Boolean(turn.querySelector('.generated-file-card[data-kind="mindmap"]'));
+      const includeMindMap = Boolean(checkbox.checked && hasMindMap);
+      const progress = config.querySelector('.ppt-progress');
+      button.disabled = true;
+      progress.hidden = false;
+      progress.textContent = `正在生成${includeMindMap ? '包含思维导图' : '总结要点'}的 PPT…`;
+      window.setTimeout(() => {
+        const file = makeMindMapPpt(includeMindMap);
+        createPptCard(turn, includeMindMap, file);
+        progress.textContent = `PPT生成完成：${includeMindMap ? '包含思维导图' : '仅总结要点'}`;
+        button.disabled = false;
+      }, 650);
     };
     const sendQuestion = () => {
       const question = input.value.trim();
-      if (!question) { input.focus(); return; }
+      const attachment = attachmentInput.files[0];
+      if (!question && !attachment) { input.focus(); return; }
       const turn = document.createElement('section');
       turn.className = 'conversation-turn';
       const questionBubble = document.createElement('div');
       questionBubble.className = 'sent-question';
-      questionBubble.textContent = question;
+      questionBubble.textContent = question || `请帮我分析上传的文件：${attachment.name}`;
       turn.appendChild(questionBubble);
+      if (attachment) {
+        const attachmentBubble = document.createElement('div');
+        attachmentBubble.className = 'sent-attachment';
+        attachmentBubble.textContent = `📎 ${attachment.name}`;
+        turn.appendChild(attachmentBubble);
+      }
       turn.appendChild(answerTemplate.content.cloneNode(true));
       conversationThread.appendChild(turn);
       welcomeView.hidden = true;
-      document.querySelector('.topbar span').textContent = question;
+      document.querySelector('.topbar span').textContent = question || attachment.name;
       input.value = '';
+      attachmentInput.value = '';
+      attachmentName.textContent = '';
+      attachmentName.hidden = true;
       requestAnimationFrame(() => turn.scrollIntoView({ block: 'start', behavior: 'smooth' }));
     };
     const appShell = document.querySelector('.app-shell');
@@ -562,23 +758,33 @@
       const generationButton = event.target.closest('[data-action="generate-mindmap"], [data-action="generate-ppt"]');
       if (generationButton) {
         const turn = generationButton.closest('.conversation-turn');
-        const kind = generationButton.dataset.action === 'generate-ppt' ? 'ppt' : 'pdf';
-        const existingCard = turn.querySelector(`.generated-file-card[data-kind="${kind}"]`);
-        if (existingCard) existingCard.querySelector('.regenerate-pdf').click();
-        else addMindMapCard(turn, kind);
+        if (generationButton.dataset.action === 'generate-ppt') showPptConfig(turn);
+        else addMindMapCard(turn);
+        return;
+      }
+      const startPptButton = event.target.closest('.start-ppt');
+      if (startPptButton) {
+        startPptGeneration(startPptButton);
+        return;
+      }
+      const viewLargeButton = event.target.closest('.view-large');
+      if (viewLargeButton) {
+        const card = viewLargeButton.closest('.generated-file-card');
+        const viewer = document.querySelector('#mindmap-viewer');
+        viewer.querySelector('img').src = card.dataset.fullPreview || card.querySelector('.mindmap-preview img').src;
+        viewer.showModal();
         return;
       }
       const regenerateButton = event.target.closest('.regenerate-pdf');
       if (regenerateButton) {
         const card = regenerateButton.closest('.generated-file-card');
-        const download = card.querySelector('.download-pdf');
-        if (download.dataset.objectUrl) URL.revokeObjectURL(download.dataset.objectUrl);
-        const isPpt = card.dataset.kind === 'ppt';
-        const file = isPpt ? makeMindMapPpt() : makeMindMapPdf();
-        download.href = isPpt ? file.pptUrl : file.pdfUrl;
-        download.dataset.objectUrl = download.href;
-        card.querySelector('.mindmap-preview img').src = file.previewUrl;
-        card.querySelector('.generated-file-status').innerHTML = `<strong>✓</strong>${isPpt ? 'PPT' : 'PDF'}已重新生成，可下载查看`;
+        if (card.dataset.kind === 'mindmap') {
+          addMindMapCard(card.closest('.conversation-turn'));
+          return;
+        }
+        const includeMindMap = card.dataset.kind === 'ppt-with-map';
+        const file = makeMindMapPpt(includeMindMap);
+        createPptCard(card.closest('.conversation-turn'), includeMindMap, file);
         return;
       }
       const expandButton = event.target.closest('.expand-all');
@@ -600,6 +806,11 @@
         }
       }
     });
+    const mindmapViewer = document.querySelector('#mindmap-viewer');
+    mindmapViewer.querySelector('.image-viewer-close').addEventListener('click', () => mindmapViewer.close());
+    mindmapViewer.addEventListener('click', (event) => {
+      if (event.target === mindmapViewer) mindmapViewer.close();
+    });
     document.querySelectorAll('[data-question]').forEach((button) => {
       button.addEventListener('click', () => {
         input.value = button.dataset.question;
@@ -616,6 +827,10 @@
     });
     document.querySelector('.new-chat').addEventListener('click', () => {
       input.value = '';
+      attachmentInput.value = '';
+      attachmentName.textContent = '';
+      attachmentName.hidden = true;
+      conversationThread.querySelectorAll('[data-object-url]').forEach((element) => URL.revokeObjectURL(element.dataset.objectUrl));
       conversationThread.replaceChildren();
       welcomeView.hidden = false;
       document.querySelector('#composer').hidden = false;
